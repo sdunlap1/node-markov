@@ -2,7 +2,7 @@
 
 class MarkovMachine {
 
-  /** build markov machine; read in text.*/
+  /** build markov machine; read in text. */
 
   constructor(text) {
     let words = text.split(/[ \r\n]+/);
@@ -29,20 +29,19 @@ class MarkovMachine {
     }
   }
 
-  /** return random text from chains */
+  /** return random text from chains, word by word */
 
-  makeText(numWords = 100) {
+  *makeText(numWords = 100) {
     let keys = Object.keys(this.chains);
     let key = keys[Math.floor(Math.random() * keys.length)];
-    let output = [];
+    let count = 0;
 
-    while (output.length < numWords && key !== null) {
-      output.push(key);
+    while (count < numWords && key !== null) {
+      yield key;
       let nextWords = this.chains[key];
       key = nextWords[Math.floor(Math.random() * nextWords.length)];
+      count++;
     }
-
-    return output.join(" ");
   }
 }
 
